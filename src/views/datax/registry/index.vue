@@ -15,16 +15,25 @@
         <p class="number">{{ item.loadAverage >= 0 ? item.loadAverage : 0 }}</p>
       </div>
     </div>
+    <pagination
+      v-show="total>0"
+      :total="total"
+      :page.sync="listQuery.current"
+      :limit.sync="listQuery.size"
+      @pagination="fetchData"
+    />
   </div>
 </template>
 
 <script>
 import { getList } from '@/api/datax-registry'
 import waves from '@/directive/waves' // waves directive
+import Pagination from '@/components/Pagination'
 
 export default {
   name: 'Registry',
   directives: { waves },
+  components: { Pagination },
   filters: {
     statusFilter(status) {
       const statusMap = {
